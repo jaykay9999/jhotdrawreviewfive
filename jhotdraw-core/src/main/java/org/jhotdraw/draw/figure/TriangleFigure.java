@@ -116,49 +116,81 @@ public class TriangleFigure extends AbstractAttributedFigure {
   public BezierPath getBezierPath() {
     Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
     BezierPath triangle = new BezierPath();
+
+    double x1, y1, x2, y2, x3, y3;
+
     switch (attr().get(ORIENTATION)) {
       case NORTH:
       default:
-        triangle.moveTo((float) (r.x + r.width / 2), (float) r.y);
-        triangle.lineTo((float) (r.x + r.width), (float) (r.y + r.height));
-        triangle.lineTo((float) r.x, (float) (r.y + r.height));
+        x1 = r.x + (r.width / 2f);
+        y1 = r.y;
+        x2 = r.width + r.x;
+        y2 = r.height + r.y;
+        x3 = r.x;
+        y3 = r.height + r.y;
         break;
       case NORTH_EAST:
-        triangle.moveTo((float) (r.x), (float) r.y);
-        triangle.lineTo((float) (r.x + r.width), (float) (r.y));
-        triangle.lineTo((float) (r.x + r.width), (float) (r.y + r.height));
+        x1 = r.x;
+        y1 = r.y;
+        x2 = r.width + r.x;
+        y2 = r.y;
+        x3 = r.width + r.x;
+        y3 = r.height + r.y;
         break;
       case EAST:
-        triangle.moveTo((float) (r.x), (float) (r.y));
-        triangle.lineTo((float) (r.x + r.width), (float) (r.y + r.height / 2d));
-        triangle.lineTo((float) r.x, (float) (r.y + r.height));
+        x1 = r.x;
+        y1 = r.y;
+        x2 = r.width + r.x;
+        y2 = r.y + (r.height / 2f);
+        x3 = r.x;
+        y3 = r.height + r.y;
         break;
       case SOUTH_EAST:
-        triangle.moveTo((float) (r.x + r.width), (float) (r.y));
-        triangle.lineTo((float) (r.x + r.width), (float) (r.y + r.height));
-        triangle.lineTo((float) (r.x), (float) (r.y + r.height));
+        x1 = r.width + r.x;
+        y1 = r.y;
+        x2 = r.width + r.x;
+        y2 = r.height + r.y;
+        x3 = r.x;
+        y3 = r.height + r.y;
         break;
       case SOUTH:
-        triangle.moveTo((float) (r.x + r.width / 2), (float) (r.y + r.height));
-        triangle.lineTo((float) r.x, (float) r.y);
-        triangle.lineTo((float) (r.x + r.width), (float) r.y);
+        x1 = r.x + (r.width / 2f);
+        y1 = r.height + r.y;
+        x2 = r.x;
+        y2 = r.y;
+        x3 = r.width + r.x;
+        y3 = r.y;
         break;
       case SOUTH_WEST:
-        triangle.moveTo((float) (r.x + r.width), (float) (r.y + r.height));
-        triangle.lineTo((float) (r.x), (float) (r.y + r.height));
-        triangle.lineTo((float) (r.x), (float) (r.y));
+        x1 = r.width + r.x;
+        y1 = r.height + r.y;
+        x2 = r.x;
+        y2 = r.height + r.y;
+        x3 = r.x;
+        y3 = r.y;
         break;
       case WEST:
-        triangle.moveTo((float) (r.x), (float) (r.y + r.height / 2));
-        triangle.lineTo((float) (r.x + r.width), (float) (r.y));
-        triangle.lineTo((float) (r.x + r.width), (float) (r.y + r.height));
+        x1 = r.x;
+        y1 = r.y + (r.height / 2f);
+        x2 = r.width + r.x;
+        y2 = r.y;
+        x3 = r.width + r.x;
+        y3 = r.height + r.y;
         break;
       case NORTH_WEST:
-        triangle.moveTo((float) (r.x), (float) (r.y + r.height));
-        triangle.lineTo((float) (r.x), (float) (r.y));
-        triangle.lineTo((float) (r.x + r.width), (float) (r.y));
+        x1 = r.x;
+        y1 = r.height + r.y;
+        x2 = r.x;
+        y2 = r.y;
+        x3 = r.width + r.x;
+        y3 = r.y;
         break;
     }
+
+    triangle.moveTo(x1, y1);
+    triangle.lineTo(x2, y2);
+    triangle.lineTo(x3, y3);
+
     triangle.setClosed(true);
     return triangle;
   }
