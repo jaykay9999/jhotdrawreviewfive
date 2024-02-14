@@ -206,7 +206,6 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
    * @param newValue a drawing editor.
    */
   public void setEditor(DrawingEditor newValue) {
-    DrawingEditor oldValue = editor;
     if (editor != null) {
       editor.removePropertyChangeListener(eventHandler);
     }
@@ -296,7 +295,6 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
         (view != null)
             ? view
             : ((editor != null && editor.getActiveView() != null) ? editor.getActiveView() : null);
-    DrawingView oldValue = activeView;
     if (activeView != null) {
       activeView.removePropertyChangeListener(eventHandler);
       activeView.removeFigureSelectionListener(eventHandler);
@@ -322,7 +320,9 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
   protected abstract Set<Figure> getEditedFigures();
 
   protected void updateAttributeEditor() {
-    if (updateDepth++ == 0) {
+
+    int updateDepthIncreased = updateDepth++;
+    if (updateDepthIncreased == 0) {
       Set<Figure> figures = getEditedFigures();
       if (editor == null) {
         attributeEditor.getComponent().setEnabled(false);
@@ -352,7 +352,8 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
 
   @SuppressWarnings("unchecked")
   protected void updateFigures() {
-    if (updateDepth++ == 0) {
+    int updateDepthIncreased = updateDepth++;
+    if (updateDepthIncreased == 0) {
       Set<Figure> figures = getEditedFigures();
       if (activeView == null || figures.isEmpty()) {
       } else {
