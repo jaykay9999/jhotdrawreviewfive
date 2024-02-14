@@ -32,7 +32,8 @@ public class OSXClipboard extends AWTClipboard {
         t = ct;
       }
     } catch (Throwable ex) {
-      // silently suppress
+
+      ex.printStackTrace();
     }
     return t;
   }
