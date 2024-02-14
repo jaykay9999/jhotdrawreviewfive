@@ -388,35 +388,34 @@ public class OSXApplication extends AbstractApplication {
     // Create missing standard menus
     if (fileMenu == null) {
       fileMenu = createFileMenu(v);
-    }
-    if (editMenu == null) {
-      editMenu = createEditMenu(v);
-    }
-    if (viewMenu == null) {
-      viewMenu = createViewMenu(v);
-    }
-    if (windowMenu == null) {
-      windowMenu = createWindowMenu(v);
-    }
-    if (helpMenu == null) {
-      helpMenu = createHelpMenu(v);
-    }
-    // Insert standard menus into menu bar
-    if (fileMenu != null) {
+    } else {
       mb.add(fileMenu, 0);
     }
-    if (editMenu != null) {
+
+    if (editMenu == null) {
+      editMenu = createEditMenu(v);
+    } else {
       mb.add(editMenu, Math.min(1, mb.getComponentCount()));
     }
-    if (viewMenu != null) {
+
+    if (viewMenu == null) {
+      viewMenu = createViewMenu(v);
+    } else {
       mb.add(viewMenu, Math.min(2, mb.getComponentCount()));
     }
-    if (windowMenu != null) {
+
+    if (windowMenu == null) {
+      windowMenu = createWindowMenu(v);
+    } else {
       mb.add(windowMenu);
     }
-    if (helpMenu != null) {
+
+    if (helpMenu == null) {
+      helpMenu = createHelpMenu(v);
+    } else {
       mb.add(helpMenu);
     }
+
     return mb;
   }
 
