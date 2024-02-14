@@ -7,6 +7,21 @@
  */
 package org.jhotdraw.samples.svg.io;
 
+import static org.jhotdraw.draw.AttributeKeys.FILL_COLOR;
+import static org.jhotdraw.draw.AttributeKeys.FONT_BOLD;
+import static org.jhotdraw.draw.AttributeKeys.FONT_FACE;
+import static org.jhotdraw.draw.AttributeKeys.FONT_ITALIC;
+import static org.jhotdraw.draw.AttributeKeys.FONT_SIZE;
+import static org.jhotdraw.draw.AttributeKeys.FONT_UNDERLINE;
+import static org.jhotdraw.draw.AttributeKeys.STROKE_CAP;
+import static org.jhotdraw.draw.AttributeKeys.STROKE_COLOR;
+import static org.jhotdraw.draw.AttributeKeys.STROKE_DASHES;
+import static org.jhotdraw.draw.AttributeKeys.STROKE_DASH_PHASE;
+import static org.jhotdraw.draw.AttributeKeys.STROKE_JOIN;
+import static org.jhotdraw.draw.AttributeKeys.STROKE_MITER_LIMIT;
+import static org.jhotdraw.draw.AttributeKeys.STROKE_WIDTH;
+import static org.jhotdraw.draw.AttributeKeys.TRANSFORM;
+import static org.jhotdraw.draw.AttributeKeys.WINDING_RULE;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 import static org.jhotdraw.samples.svg.SVGConstants.*;
 
@@ -237,11 +252,7 @@ public class SVGOutputFormat implements OutputFormat {
 
   protected Element createRadialGradient(
       Element doc,
-      double cx,
-      double cy,
-      double fx,
-      double fy,
-      double r,
+      double[] Parameters,
       double[] stopOffsets,
       Color[] stopColors,
       double[] stopOpacities,
@@ -249,11 +260,11 @@ public class SVGOutputFormat implements OutputFormat {
       AffineTransform transform)
       throws IOException {
     Element elem = doc.getOwnerDocument().createElement("radialGradient");
-    writeAttribute(elem, "cx", toNumber(cx), "0.5");
-    writeAttribute(elem, "cy", toNumber(cy), "0.5");
-    writeAttribute(elem, "fx", toNumber(fx), toNumber(cx));
-    writeAttribute(elem, "fy", toNumber(fy), toNumber(cy));
-    writeAttribute(elem, "r", toNumber(r), "0.5");
+    writeAttribute(elem, "cx", toNumber(Parameters[0]), "0.5");
+    writeAttribute(elem, "cy", toNumber(Parameters[1]), "0.5");
+    writeAttribute(elem, "fx", toNumber(Parameters[2]), toNumber(Parameters[0]));
+    writeAttribute(elem, "fy", toNumber(Parameters[3]), toNumber(Parameters[1]));
+    writeAttribute(elem, "r", toNumber(Parameters[4]), "0.5");
     writeAttribute(
         elem,
         "gradientUnits",
@@ -655,14 +666,12 @@ public class SVGOutputFormat implements OutputFormat {
                   lg.getTransform());
         } else /*if (gradient instanceof RadialGradient)*/ {
           RadialGradient rg = (RadialGradient) gradient;
+          double[] Parameters =
+              new double[] {rg.getCX(), rg.getCY(), rg.getFX(), rg.getFY(), rg.getR()};
           gradientElem =
               createRadialGradient(
                   document,
-                  rg.getCX(),
-                  rg.getCY(),
-                  rg.getFX(),
-                  rg.getFY(),
-                  rg.getR(),
+                  Parameters,
                   rg.getStopOffsets(),
                   rg.getStopColors(),
                   rg.getStopOpacities(),
@@ -733,14 +742,12 @@ public class SVGOutputFormat implements OutputFormat {
                   lg.getTransform());
         } else /*if (gradient instanceof RadialGradient)*/ {
           RadialGradient rg = (RadialGradient) gradient;
+          double[] Parameters =
+              new double[] {rg.getCX(), rg.getCY(), rg.getFX(), rg.getFY(), rg.getR()};
           gradientElem =
               createRadialGradient(
                   document,
-                  rg.getCX(),
-                  rg.getCY(),
-                  rg.getFX(),
-                  rg.getFY(),
-                  rg.getR(),
+                  Parameters,
                   rg.getStopOffsets(),
                   rg.getStopColors(),
                   rg.getStopOpacities(),
