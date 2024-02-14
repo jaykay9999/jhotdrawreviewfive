@@ -104,26 +104,6 @@ public class ConvexHull {
    * @param points
    * @return convex hull of the points
    */
-  public static List<Point> getConvexHull(List<Point> points) {
-    return Arrays.asList(getConvexHull(points.toArray(new Point[points.size()])));
-  }
-
-  /**
-   * Computes the convex hull from a set of points.
-   *
-   * @param points
-   * @return convex hull of the points
-   */
-  public static List<Point2D.Double> getConvexHull2D(List<Point2D.Double> points) {
-    return Arrays.asList(getConvexHull2D(points.toArray(new Point2D.Double[points.size()])));
-  }
-
-  /**
-   * Computes the convex hull from a set of points.
-   *
-   * @param points
-   * @return convex hull of the points
-   */
   public static Point[] getConvexHull(Point[] points) {
     // Quickly return if no work is needed
     if (points.length < 3) {
