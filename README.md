@@ -39,9 +39,17 @@ Additional to that are in module `jhotdraw-samples-misc` more sophisticated exam
 
 ## License
 
-* LGPL V2.1
-* Creative Commons Attribution 2.5 License
+MIT License
+Copyright (c)
+
+Permission is granted to deal with this software without restriction. This includes rights to use, copy, modify, merge, publish, distribute, sublicense, and sell copies. Original terms and disclaimers apply.
+
+
 
 ## History 
 
 This is a fork of jhotdraw from http://sourceforge.net/projects/jhotdraw.
+
+
+
+Note: This license pertains to a test environment only.
