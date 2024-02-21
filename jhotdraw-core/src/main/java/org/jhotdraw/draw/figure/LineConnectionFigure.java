@@ -217,45 +217,6 @@ public class LineConnectionFigure extends LineFigure implements ConnectionFigure
     }
   }
 
-  // COMPOSITE FIGURES
-  // LAYOUT
-  /*
-  public Liner getBezierPathLayouter() {
-  return (Liner) get(BEZIER_PATH_LAYOUTER);
-  }
-  public void setBezierPathLayouter(Liner newValue) {
-  set(BEZIER_PATH_LAYOUTER, newValue);
-  }
-  /**
-   * Lays out the connection. This is called when the connection
-   * itself changes. By default the connection is recalculated
-   * /
-  public void layoutConnection() {
-  if (getStartConnector() != null && getEndConnector() != null) {
-  willChange();
-  Liner bpl = getBezierPathLayouter();
-  if (bpl != null) {
-  bpl.lineout(this);
-  } else {
-  if (getStartConnector() != null) {
-  Point2D.Double start = getStartConnector().findStart(this);
-  if(start != null) {
-  basicSetStartPoint(start);
-  }
-  }
-  if (getEndConnector() != null) {
-  Point2D.Double end = getEndConnector().findEnd(this);
-  if(end != null) {
-  basicSetEndPoint(end);
-  }
-  }
-  }
-  changed();
-  }
-  }
-   */
-  // CLONING
-  // EVENT HANDLING
   /**
    * This method is invoked, when the Figure is being removed from a Drawing. This method invokes
    * handleConnect, if the Figure is connected.
