@@ -171,11 +171,12 @@ public class BezierFigure extends AbstractAttributedFigure {
 
   @Override
   public boolean contains(Point2D.Double p, double scaleDenominator) {
+    boolean result = false;
     double tolerance =
         Math.max(1f, 2 * AttributeKeys.getPerpendicularHitGrowth(this, scaleDenominator));
     if (isClosed() || attr().get(FILL_COLOR) != null && attr().get(UNCLOSED_PATH_FILLED)) {
       if (path.contains(p)) {
-        return true;
+        result = true;
       }
       double grow = tolerance;
       GrowStroke gs =
@@ -184,16 +185,15 @@ public class BezierFigure extends AbstractAttributedFigure {
               AttributeKeys.getStrokeTotalWidth(this, scaleDenominator)
                   * attr().get(STROKE_MITER_LIMIT));
       if (gs.createStrokedShape(path).contains(p)) {
-        return true;
+        result = true;
       } else {
         if (isClosed()) {
           return false;
         }
       }
-    }
-    if (!isClosed()) {
+    } else if (!isClosed()) {
       if (getCappedPath(scaleDenominator).outlineContains(p, tolerance)) {
-        return true;
+        result = true;
       }
       if (attr().get(START_DECORATION) != null) {
         BezierPath cp = getCappedPath(scaleDenominator);
@@ -201,7 +201,7 @@ public class BezierFigure extends AbstractAttributedFigure {
         Point2D.Double p2 = cp.get(0, 0);
         // FIXME - Check here, if caps path contains the point
         if (Geom.lineContainsPoint(p1.x, p1.y, p2.x, p2.y, p.x, p.y, tolerance)) {
-          return true;
+          result = true;
         }
       }
       if (attr().get(END_DECORATION) != null) {
@@ -210,11 +210,14 @@ public class BezierFigure extends AbstractAttributedFigure {
         Point2D.Double p2 = cp.get(path.size() - 1, 0);
         // FIXME - Check here, if caps path contains the point
         if (Geom.lineContainsPoint(p1.x, p1.y, p2.x, p2.y, p.x, p.y, tolerance)) {
-          return true;
+          result = true;
         }
       }
+    } else {
+
+      return false;
     }
-    return false;
+    return result;
   }
 
   @Override
