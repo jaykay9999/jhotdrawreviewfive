@@ -28,11 +28,8 @@ public class Main {
     ResourceBundleUtil.setVerbose(true);
     Application app;
     String os = System.getProperty("os.name").toLowerCase();
-    if (os.startsWith("mac")) {
+    if (os.contains("mac")) {
       app = new OSXApplication();
-    } else if (os.startsWith("win")) {
-      //  app = new MDIApplication();
-      app = new SDIApplication();
     } else {
       app = new SDIApplication();
     }
