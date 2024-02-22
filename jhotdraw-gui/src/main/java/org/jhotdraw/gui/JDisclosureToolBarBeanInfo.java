@@ -150,45 +150,31 @@ public class JDisclosureToolBarBeanInfo extends SimpleBeanInfo {
    * @return An image object representing the requested icon. May return null if no suitable icon is
    *     available.
    */
+  public java.awt.Image loadImage(String iconName, java.awt.Image icon) {
+    if (iconName == null) {
+      return null;
+    }
+    if (icon == null) {
+      return loadImage(iconName);
+    }
+    return icon;
+  }
+
   @Override
   public java.awt.Image getIcon(int iconKind) {
     switch (iconKind) {
       case ICON_COLOR_16x16:
-        if (iconNameC16 == null) {
-          return null;
-        } else {
-          if (iconColor16 == null) {
-            iconColor16 = loadImage(iconNameC16);
-          }
-          return iconColor16;
-        }
+        iconColor16 = loadImage(iconNameC16, iconColor16);
+        return iconColor16;
       case ICON_COLOR_32x32:
-        if (iconNameC32 == null) {
-          return null;
-        } else {
-          if (iconColor32 == null) {
-            iconColor32 = loadImage(iconNameC32);
-          }
-          return iconColor32;
-        }
+        iconColor32 = loadImage(iconNameC32, iconColor32);
+        return iconColor32;
       case ICON_MONO_16x16:
-        if (iconNameM16 == null) {
-          return null;
-        } else {
-          if (iconMono16 == null) {
-            iconMono16 = loadImage(iconNameM16);
-          }
-          return iconMono16;
-        }
+        iconMono16 = loadImage(iconNameM16, iconMono16);
+        return iconMono16;
       case ICON_MONO_32x32:
-        if (iconNameM32 == null) {
-          return null;
-        } else {
-          if (iconMono32 == null) {
-            iconMono32 = loadImage(iconNameM32);
-          }
-          return iconMono32;
-        }
+        iconMono32 = loadImage(iconNameM32, iconMono32);
+        return iconMono32;
       default:
         return null;
     }
