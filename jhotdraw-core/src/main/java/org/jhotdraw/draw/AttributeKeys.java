@@ -544,25 +544,12 @@ public class AttributeKeys {
   }
 
   public static double getPerpendicularFillGrowth(Figure f, double factor) {
-    double grow;
     double strokeWidth = AttributeKeys.getStrokeTotalWidth(f, factor);
     StrokePlacement placement = f.attr().get(STROKE_PLACEMENT);
-    switch (f.attr().get(FILL_UNDER_STROKE)) {
-      case FULL:
-        grow = growthCalculation(placement, strokeWidth);
-        break;
+    
+    return growthCalculation(placement, strokeWidth);
+}
 
-      case NONE:
-        grow = growthCalculation(placement, strokeWidth);
-        break;
-
-      case CENTER:
-      default:
-        grow = growthCalculation(placement, strokeWidth);
-        break;
-    }
-    return grow;
-  }
 
   /**
    * Returns the distance, that a Rectangle needs to grow (or shrink) to draw (aka stroke) its shape
