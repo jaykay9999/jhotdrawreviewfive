@@ -173,6 +173,9 @@ public class DefaultDrawing extends AbstractDrawing {
             inFrontOf--;
           }
         }
+           if (inFrontOf == 0) {
+            break;
+        }
       }
       return null;
     }
