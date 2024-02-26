@@ -113,87 +113,42 @@ public class TriangleFigure extends AbstractAttributedFigure {
     return handles;
   }
 
-  public BezierPath getBezierPath() {
-    Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
+  private static final Map<String, double[]> directionPoints = new HashMap<>();
+
+static {
+    directionPoints.put("NORTH", new double[]{0.5, 0, 1, 1, 0, 1});
+    directionPoints.put("NORTH_EAST", new double[]{0, 0, 1, 0, 1, 1});
+    directionPoints.put("EAST", new double[]{0, 0, 1, 0.5, 0, 1});
+    directionPoints.put("SOUTH_EAST", new double[]{1, 0, 1, 1, 0, 1});
+    directionPoints.put("SOUTH", new double[]{0.5, 1, 0, 0, 1, 0});
+    directionPoints.put("SOUTH_WEST", new double[]{1, 1, 0, 1, 0, 0});
+    directionPoints.put("WEST", new double[]{0, 0.5, 1, 0, 1, 1});
+    directionPoints.put("NORTH_WEST", new double[]{0, 1, 0, 0, 1, 0});
+}
+
+public BezierPath getBezierPath() {
+    Rectangle2D.Double rectangleBounds = (Rectangle2D.Double) rectangle.clone();
+    String orientation = attr().get(ORIENTATION).toString(); // Assuming attr().get(ORIENTATION) returns a string.
+    double[] points = directionPoints.getOrDefault(orientation, new double[]{0.5, 0, 1, 1, 0, 1});
+
+    double xStart = rectangleBounds.x + (points[0] * rectangleBounds.width);
+    double yStart = rectangleBounds.y + (points[1] * rectangleBounds.height);
+    double xMid = rectangleBounds.x + (points[2] * rectangleBounds.width);
+    double yMid = rectangleBounds.y + (points[3] * rectangleBounds.height);
+    double xEnd = rectangleBounds.x + (points[4] * rectangleBounds.width);
+    double yEnd = rectangleBounds.y + (points[5] * rectangleBounds.height);
+
+    return createTriangle(xStart, yStart, xMid, yMid, xEnd, yEnd);
+}
+
+private BezierPath createTriangle(double xStart, double yStart, double xMid, double yMid, double xEnd, double yEnd) {
     BezierPath triangle = new BezierPath();
-
-    double x1, y1, x2, y2, x3, y3;
-
-    switch (attr().get(ORIENTATION)) {
-      case NORTH:
-      default:
-        x1 = r.x + (r.width / 2f);
-        y1 = r.y;
-        x2 = r.width + r.x;
-        y2 = r.height + r.y;
-        x3 = r.x;
-        y3 = r.height + r.y;
-        break;
-      case NORTH_EAST:
-        x1 = r.x;
-        y1 = r.y;
-        x2 = r.width + r.x;
-        y2 = r.y;
-        x3 = r.width + r.x;
-        y3 = r.height + r.y;
-        break;
-      case EAST:
-        x1 = r.x;
-        y1 = r.y;
-        x2 = r.width + r.x;
-        y2 = r.y + (r.height / 2f);
-        x3 = r.x;
-        y3 = r.height + r.y;
-        break;
-      case SOUTH_EAST:
-        x1 = r.width + r.x;
-        y1 = r.y;
-        x2 = r.width + r.x;
-        y2 = r.height + r.y;
-        x3 = r.x;
-        y3 = r.height + r.y;
-        break;
-      case SOUTH:
-        x1 = r.x + (r.width / 2f);
-        y1 = r.height + r.y;
-        x2 = r.x;
-        y2 = r.y;
-        x3 = r.width + r.x;
-        y3 = r.y;
-        break;
-      case SOUTH_WEST:
-        x1 = r.width + r.x;
-        y1 = r.height + r.y;
-        x2 = r.x;
-        y2 = r.height + r.y;
-        x3 = r.x;
-        y3 = r.y;
-        break;
-      case WEST:
-        x1 = r.x;
-        y1 = r.y + (r.height / 2f);
-        x2 = r.width + r.x;
-        y2 = r.y;
-        x3 = r.width + r.x;
-        y3 = r.height + r.y;
-        break;
-      case NORTH_WEST:
-        x1 = r.x;
-        y1 = r.height + r.y;
-        x2 = r.x;
-        y2 = r.y;
-        x3 = r.width + r.x;
-        y3 = r.y;
-        break;
-    }
-
-    triangle.moveTo(x1, y1);
-    triangle.lineTo(x2, y2);
-    triangle.lineTo(x3, y3);
-
+    triangle.moveTo(xStart, yStart);
+    triangle.lineTo(xMid, yMid);
+    triangle.lineTo(xEnd, yEnd);
     triangle.setClosed(true);
     return triangle;
-  }
+}
 
   @Override
   public boolean contains(Point2D.Double p, double scaleDenominator) {
