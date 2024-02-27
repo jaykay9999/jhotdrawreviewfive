@@ -524,57 +524,32 @@ public class AttributeKeys {
    * number of units that need to be grown (or shrunk) perpendicular to a stroke on an outline of
    * the shape.
    */
-  public static double getPerpendicularFillGrowth(Figure f, double factor) {
+  public static double growthCalculation(StrokePlacement placement, double strokeWidth) {
+
     double grow;
-    double strokeWidth = AttributeKeys.getStrokeTotalWidth(f, factor);
-    StrokePlacement placement = f.attr().get(STROKE_PLACEMENT);
-    switch (f.attr().get(FILL_UNDER_STROKE)) {
-      case FULL:
-        switch (placement) {
-          case INSIDE:
-            grow = 0f;
-            break;
-          case OUTSIDE:
-            grow = strokeWidth;
-            break;
-          case CENTER:
-          default:
-            grow = strokeWidth / 2d;
-            break;
-        }
+
+    switch (placement) {
+      case INSIDE:
+        grow = 0f;
         break;
-      case NONE:
-        switch (placement) {
-          case INSIDE:
-            grow = -strokeWidth;
-            break;
-          case OUTSIDE:
-            grow = 0f;
-            break;
-          case CENTER:
-          default:
-            grow = strokeWidth / -2d;
-            break;
-        }
+      case OUTSIDE:
+        grow = strokeWidth;
         break;
       case CENTER:
       default:
-        switch (placement) {
-          case INSIDE:
-            grow = strokeWidth / -2d;
-            break;
-          case OUTSIDE:
-            grow = strokeWidth / 2d;
-            break;
-          case CENTER:
-          default:
-            grow = 0d;
-            break;
-        }
+        grow = strokeWidth / 2d;
         break;
     }
     return grow;
   }
+
+  public static double getPerpendicularFillGrowth(Figure f, double factor) {
+    double strokeWidth = AttributeKeys.getStrokeTotalWidth(f, factor);
+    StrokePlacement placement = f.attr().get(STROKE_PLACEMENT);
+    
+    return growthCalculation(placement, strokeWidth);
+}
+
 
   /**
    * Returns the distance, that a Rectangle needs to grow (or shrink) to draw (aka stroke) its shape
